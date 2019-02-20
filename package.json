@@ -1,0 +1,33 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickprudnik/Back-end.git"
+  },
+  "author": "Nikita Prudnik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nickprudnik/Back-end/issues"
+  },
+  "homepage": "https://github.com/nickprudnik/Back-end#readme",
+  "dependencies": {
+    "dotenv": "^6.2.0",
+    "koa": "^2.7.0",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.4.13",
+    "superagent": "^4.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-transform-async-to-generator": "^7.2.0",
+    "@babel/register": "^7.0.0"
+  }
+}
