@@ -1,5 +1,11 @@
 module.exports = ({ router }) => {
-    router.get('/', (ctx, next) => {
-      ctx.body = "Hello World";
-    });
+  router.post('/user', async(ctx, next) => {
+    try {
+      ctx.body = await User.create(ctx.request.body);
+    }
+    catch (err) {
+      ctx.status = 400;
+      ctx.body = err;
+    }
+  });
   };

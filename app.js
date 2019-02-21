@@ -17,19 +17,12 @@ app.use(async (ctx, next) => {
   }
 });
 
-const router = new Router();
-const dogRouter = new Router({
-  prefix: '/dogs'
-});
+const router = new Router({prefix: '/auth'});
 
 require('./routes/basic')({ router });
-require('./routes/dogs')({ dogRouter })
 
 app.use(router.routes());
 app.use(router.allowedMethods());
-
-app.use(dogRouter.routes());
-app.use(dogRouter.allowedMethods());
 
 const server = app.listen(1234);
 module.exports = server;
