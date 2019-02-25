@@ -1,4 +1,3 @@
-const Koa = require('koa');
 const User = require('../models/model');
 
 exports.getUser = async (ctx) => {
@@ -10,10 +9,11 @@ exports.getUser = async (ctx) => {
     }
 }
 
-exports.addUser = async (ctx) => {
+exports.addUser = async (ctx) => { 
+    const {email, password} = ctx.request.body
     const result = await User.create({
-        email: ctx.request.body.email,
-        password: ctx.request.body.password
+        email,
+        password
     })
     if (!result) {
         throw new Error('Task failed to create.')

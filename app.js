@@ -4,6 +4,7 @@ const Koa = require('koa');
 const logger = require('koa-logger');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const koaBody = require('koa-body');
 
 const router = require('./routes/index');
 mongoose.set('debug', true);
@@ -13,8 +14,7 @@ const app = new Koa();
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
-app.use(logger());
-
 app.use(logger())
+   .use(koaBody())
    .use(router.routes())
    .listen(process.env.PORT);
