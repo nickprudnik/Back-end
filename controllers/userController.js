@@ -1,4 +1,5 @@
 const User = require('../models/model');
+const status = require('http-status');
 
 exports.getUser = async (ctx) => {
     const tasks = await  User.find({})
@@ -16,8 +17,28 @@ exports.addUser = async (ctx) => {
         password
     })
     if (!result) {
-        throw new Error('Task failed to create.')
+        throw new Error(status.BAD_REQUEST, {message: 'Task failed to create.'})
     } else {
         ctx.body = {message: 'Task created!', data: result}
     }
+}
+
+exports.checkUser = async (ctx) => {
+    const {email, password} = ctx.request.body;
+
+    if (!email || !password) {
+        ctx.throw(status.BAD_REQUEST, { message: 'Invalid data' });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (user && !user.comparePasswords(password)) {
+        ctx.throw(status.BAD_REQUEST, { message: 'Invalid data' });
+    }
+
+    if (!user) {
+        ctx.throw(status.BAD_REQUEST, { message: 'User not found' });
+    }
+
+    ctx.body = user;
 }
