@@ -22,6 +22,11 @@ User.pre('save', function(next) {
     });
 });
 
+User.pre('updateOne', function (next) {
+    this.update({}, {password: bcrypt.hashSync(this.getUpdate().$set.password, 8)});
+    next();
+});
+
 User.methods.comparePasswords = function(password) {
     return bcrypt.compareSync(password, this.password);
 };

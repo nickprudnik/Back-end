@@ -12,18 +12,24 @@ exports.getUser = async (ctx) => {
 
 exports.addUser = async (ctx) => { 
     const {email, password} = ctx.request.body
-    const result = await User.create({
+    if (!email || !password) {
+        ctx.throw(status.BAD_REQUEST, { message: 'Invalid data' });
+    }
+
+    const user = await User.findOne({ email });
+
+
+    if (user && !user.comparePasswords(password)) {
+        ctx.body = { message: 'Email already exists' };
+    } else { 
+        const result = await User.create({
         email,
         password
     })
-    if (!result) {
-        throw new Error(status.BAD_REQUEST, {message: 'Task failed to create.'})
-    } else {
-        ctx.body = {message: 'Task created!', data: result}
-    }
+        ctx.body = {message: 'Task created!', data: result}}
 }
 
-exports.checkUser = async (ctx) => {
+exports.checkUser = async ( ctx ) => {
     const {email, password} = ctx.request.body;
 
     if (!email || !password) {
@@ -33,12 +39,28 @@ exports.checkUser = async (ctx) => {
     const user = await User.findOne({ email });
 
     if (user && !user.comparePasswords(password)) {
-        ctx.throw(status.BAD_REQUEST, { message: 'Invalid data' });
+        ctx.throw(status.BAD_REQUEST, { message: 'Login successful' });
     }
 
     if (!user) {
         ctx.throw(status.BAD_REQUEST, { message: 'User not found' });
     }
 
-    ctx.body = user;
+    ctx.body = 'Login successful';
+}
+
+exports.restorePassword = async (ctx) => {
+    const { email, password } = ctx.request.body;
+
+    if (!email) {
+        ctx.throw(status.BAD_REQUEST, { message: 'Invalid data' });
+    }
+
+    const user = await User.findOne({ email });
+    
+    if (user) {
+        const result = await User.updateOne({ password: password });
+        ctx.body = {message: 'User modified', data: result};
+    }
+    
 }
