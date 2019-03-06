@@ -11,7 +11,7 @@ exports.getUser = async (ctx) => {
 }
 
 exports.addUser = async (ctx) => { 
-    const {email, password} = ctx.request.body
+    const {email, password} = ctx.request.body;
     if (!email || !password) {
         ctx.throw(status.BAD_REQUEST, { message: 'Invalid data' });
     }
@@ -56,10 +56,10 @@ exports.restorePassword = async (ctx) => {
         ctx.throw(status.BAD_REQUEST, { message: 'Invalid data' });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email });
     
     if (user) {
-        const result = await User.updateOne({ password: password });
+        const result = await User.updateOne({ email: email }, {$set:{ password: password }});
         ctx.body = {message: 'User modified', data: result};
     }
     

@@ -4,7 +4,7 @@ SALT_WORK_FACTOR = 10;
 
 const User = new mongoose.Schema({
     id: String,
-	email: String,
+    email: String,
     password: String
 });    
 
@@ -22,8 +22,23 @@ User.pre('save', function(next) {
     });
 });
 
+User.pre('findOne', function (next) {
+    next();
+})
+
 User.pre('updateOne', function (next) {
-    this.update({}, {password: bcrypt.hashSync(this.getUpdate().$set.password, 8)});
+    const password = this.getUpdate().$set.password;
+    if (!password) {
+        return next();
+    }
+    try {
+        const salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
+        const hash = bcrypt.hashSync(password, salt);
+        this.getUpdate().$set.password = hash;
+        next();
+    } catch (error) {
+        return next(error);
+    }
     next();
 });
 
