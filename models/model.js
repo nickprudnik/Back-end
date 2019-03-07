@@ -22,10 +22,6 @@ User.pre('save', function(next) {
     });
 });
 
-User.pre('findOne', function (next) {
-    next();
-})
-
 User.pre('updateOne', function (next) {
     const password = this.getUpdate().$set.password;
     if (!password) {
