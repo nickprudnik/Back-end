@@ -12,69 +12,55 @@ exports.getUser = async (ctx) => {
     }
 }
 
-// exports.addUser = async (ctx) => { 
-//     const {email, password} = ctx.request.body;
-//     if (!email || !password) {
-//         ctx.throw(status.BAD_REQUEST, { message: 'Invalid data' });
-//     }
-
-//     const user = await User.findOne({ email });
-
-
-//     if (user && !user.comparePasswords(password)) {
-//         ctx.body = { message: 'Email already exists' };
-//     } else { 
-//         const result = await User.create({
-//         email,
-//         password
-//     })
-//         ctx.body = {message: 'Task created!', data: result}}
-// }
-
 exports.addUser = async (ctx) => {
     const { errors, isValid } = validateRegisterInput(ctx.request.body);
-    const { email, password } = ctx.request.body;
-
     if (!isValid) {
         ctx.status = 400;
-        ctx.body = { errors };
+        ctx.body = errors;
     }
+    const { name, email, password } = ctx.request.body;
     const user = await User.findOne({
         email
     })
         if(user) {
-             ctx.status = 400;
-             ctx.body = { message: 'Email already exists' };
+             ctx.status = 401;
+             ctx.body = errors;
         }
         else {
-            const result = User.create({
+            ctx.status = 200;
+            User.create({
+                name,
                 email,
                 password
             })
-            ctx.body = {message: 'Task created!', result}
+            ctx.body = {message: 'Task created!'};
         }
     
 }
 
-
 exports.checkUser = async ( ctx ) => {
-    const {email, password} = ctx.request.body;
+    const { errors, isValid } = validateLoginInput(ctx.request.body);
+    if (!isValid) {
+        ctx.status = 400;
+        ctx.body = errors;
+    }
 
+    const {email, password} = ctx.request.body;
+    
     if (!email || !password) {
-        ctx.throw(status.BAD_REQUEST, { message: 'Invalid data' });
+        ctx.status = 400;
+        ctx.body = errors;
     }
 
     const user = await User.findOne({ email });
 
-    if (user && !user.comparePasswords(password)) {
-        ctx.throw(status.BAD_REQUEST, { message: 'Login successful' });
+    if (user && user.comparePasswords(password)) {
+        ctx.status = 200;
+        ctx.body = { message: 'Login successful' };
+    } else {
+        ctx.status = 401;
+        ctx.body = errors;
     }
-
-    if (!user) {
-        ctx.throw(status.BAD_REQUEST, { message: 'User not found' });
-    }
-
-    ctx.body = 'Login successful';
 }
 
 exports.restorePassword = async (ctx) => {
