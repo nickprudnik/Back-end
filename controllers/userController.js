@@ -1,5 +1,8 @@
 const User = require("../models/model");
 const status = require("http-status");
+const gravatar = require("gravatar");
+const jwt = require("jsonwebtoken");
+const passport = require("passport");
 const validateRegisterInput = require("../validation/signUp");
 const validateLoginInput = require("../validation/signIn");
 
@@ -26,11 +29,17 @@ exports.addUser = async ctx => {
     ctx.status = 401;
     ctx.body = errors;
   } else {
+    const avatar = gravatar.url(ctx.request.body.email, {
+      s: "200",
+      r: "pg",
+      d: "mm"
+    });
     ctx.status = 200;
     User.create({
       name,
       email,
-      password
+      password,
+      avatar
     });
     ctx.body = { message: "Task created!" };
   }
@@ -54,11 +63,28 @@ exports.checkUser = async ctx => {
 
   if (user && user.comparePasswords(password)) {
     ctx.status = 200;
-    ctx.body = { message: "Login successful" };
+    const payload = {
+      id: user.id,
+      name: user.name,
+      avatar: user.avatar
+    };
+
+    ctx.response.body = jwt.sign(payload, "secret");
   } else {
     ctx.status = 401;
     ctx.body = errors;
   }
+};
+
+exports.getMe = () => {
+  passport.authenticate("jwt", { session: false }),
+    ctx => {
+      return ctx.json({
+        id: ctx.body.user.id,
+        name: ctx.body.user.name,
+        email: ctx.body.user.email
+      });
+    };
 };
 
 exports.restorePassword = async ctx => {
