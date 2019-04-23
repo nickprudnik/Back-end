@@ -2,27 +2,23 @@
 
 const Koa = require('koa');
 const logger = require('koa-logger');
-const Router = require('koa-router');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const koaBody = require('koa-body');
+const cors = require('@koa/cors');
+const bodyParser = require('koa-bodyparser');
+
+const router = require('./routes/index');
+mongoose.set('debug', true);
+
+dotenv.config();
 const app = new Koa();
 
-app.use(logger());
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
-app.use(async (ctx, next) => {
-  try {
-    await next();
-  } catch (err) {
-    ctx.status = err.status || 500;
-    ctx.body = err.message;
-    ctx.app.emit('error', err, ctx);
-  }
-});
-
-const router = new Router({prefix: '/auth'});
-
-require('./routes/basic')({ router });
-
-app.use(router.routes());
-app.use(router.allowedMethods());
-
-const server = app.listen(1234);
-module.exports = server;
+app.use(logger())
+   .use(koaBody())
+   .use(bodyParser())
+   .use(cors())
+   .use(router.routes())
+   .listen(process.env.PORT);
