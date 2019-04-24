@@ -1,4 +1,4 @@
-const User = require("../models/model");
+const User = require("../models/userModel");
 const status = require("http-status");
 const gravatar = require("gravatar");
 const jwt = require("jsonwebtoken");
@@ -69,7 +69,9 @@ exports.checkUser = async ctx => {
       avatar: user.avatar
     };
 
-    ctx.response.body = jwt.sign(payload, "secret");
+    ctx.body = jwt.sign(payload, "secret", {
+      expiresIn: 3600
+    });
   } else {
     ctx.status = 401;
     ctx.body = errors;

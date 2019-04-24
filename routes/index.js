@@ -1,9 +1,11 @@
 const Router = require("koa-router");
 const userRouter = require("./user");
+const aviaRouter = require("./avia");
 
 const router = new Router();
 
 router.use("/user", userRouter.routes());
+router.use("/avia", aviaRouter.routes());
 router.get("/search-request", async ctx => {
   ctx.status = 200;
   ctx.body = {
