@@ -1,30 +1,34 @@
-const Airport = require("../models/airportModel");
+const status = require("http-status");
+const { saveAirport, getAirport } = require("../services/airportService");
 
 exports.addAirport = async ctx => {
-  const { name } = ctx.request.body;
-  const airport = await Airport.findOne({
-    name
-  });
-  if (airport) {
-    ctx.status = 401;
-    ctx.body = err;
-  } else {
-    ctx.status = 200;
-    Airport.create({
-      name
-    });
-    ctx.body = { message: "Airport created" };
+  try {
+    await saveAirport(ctx.request.body);
+    ctx.status = status.CREATED;
+    ctx.body = {
+      message: "Airport save successful"
+    };
+  } catch (error) {
+    ctx.body = {
+      message: "Airport save failed"
+    };
+    ctx.status = status.BAD_REQUEST;
   }
-
-  //   const airport = new Airport.Airport(ctx.request.body)
-  //     .save()
-  //     .then(airport => ctx.status(200).json(airport))
-  //     .catch(err => ctx.status(500).send(err.message));
 };
 
-exports.getAirports = ctx => {
-  Airport.Airport.find()
-    .exec()
-    .then(airports => ctx.status(200).json(airports))
-    .catch(err => ctx.status(500).send(err.message));
+exports.getAirport = async ctx => {
+  try {
+    const airport = await getAirport(ctx.request.query);
+    if (!!airport) {
+      ctx.status = status.OK;
+      ctx.body = {
+        ...airport
+      };
+    }
+  } catch (error) {
+    ctx.body = {
+      message: "Get airport failed"
+    };
+    ctx.status = status.BAD_REQUEST;
+  }
 };

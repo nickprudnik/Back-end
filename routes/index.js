@@ -12,25 +12,27 @@ router.get("/search-request", async ctx => {
     tickets: [
       {
         id: 1,
-        dateFrom: "2019-03-25",
-        dateTo: "2019-03-27",
+        dateFrom: "2019-04-25",
+        dateTo: "2019-04-27",
         startTime: "6.30",
         endTime: "8.45",
         fromCountry: "Minsk-1 Airport(Minsk, BLR)",
         toCountry: "Schönefeld Airport(Berlin,DE)",
         price: "125",
-        planeId: 1
+        planeId: 1,
+        adult: 2
       },
       {
         id: 2,
-        dateFrom: "2019-03-28",
-        dateTo: "2019-03-30",
+        dateFrom: "2019-04-28",
+        dateTo: "2019-04-30",
         startTime: "6.30",
         endTime: "8.45",
         fromCountry: "Tegel Airport(Berlin,DE)",
         toCountry: "Minsk-1 Airport(Minsk, BLR)",
         price: "125",
-        planeId: 1
+        planeId: 1,
+        adult: 4
       },
       {
         id: 3,
@@ -231,25 +233,25 @@ router.get("/search_bestdeals", async ctx => {
   };
 });
 
-router.get("/airports", async ctx => {
-  ctx.status = 200;
-  ctx.body = {
-    airports: [
-      { name: "Tegel Airport(Berlin,DE)" },
-      { name: "Schönefeld Airport(Berlin,DE)" },
-      { name: "Chopin Airport(Warsaw,PL)" },
-      { name: "Borispol Airoport(Kiev,UA)" },
-      { name: "Juliani Airport(Kiev,UA)" },
-      { name: "Minsk-1 Airport(Minsk, BLR)" },
-      { name: "Vilnius Airport(Vilnius, LT)" },
-      { name: "Riga Airport(Riga, LV)" },
-      { name: "Tallinn Airport(Tallinn, EE)" },
-      { name: "Sheremetyevo Airport(Moscow, RUS)" },
-      { name: "Domodedovo Airport(Moscow, RUS)" },
-      { name: "Schiphol Airport(Amsterdam, NLD)" }
-    ]
-  };
-});
+// router.get("/airports", async ctx => {
+//   ctx.status = 200;
+//   ctx.body = {
+//     airports: [
+//       { name: "Tegel Airport(Berlin,DE)" },
+//       { name: "Schönefeld Airport(Berlin,DE)" },
+//       { name: "Chopin Airport(Warsaw,PL)" },
+//       { name: "Borispol Airoport(Kiev,UA)" },
+//       { name: "Juliani Airport(Kiev,UA)" },
+//       { name: "Minsk-1 Airport(Minsk, BLR)" },
+//       { name: "Vilnius Airport(Vilnius, LT)" },
+//       { name: "Riga Airport(Riga, LV)" },
+//       { name: "Tallinn Airport(Tallinn, EE)" },
+//       { name: "Sheremetyevo Airport(Moscow, RUS)" },
+//       { name: "Domodedovo Airport(Moscow, RUS)" },
+//       { name: "Schiphol Airport(Amsterdam, NLD)" }
+//     ]
+//   };
+// });
 
 router.get("/latest_news", async ctx => {
   ctx.status = 200;
