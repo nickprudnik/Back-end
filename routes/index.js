@@ -233,26 +233,6 @@ router.get("/search_bestdeals", async ctx => {
   };
 });
 
-// router.get("/airports", async ctx => {
-//   ctx.status = 200;
-//   ctx.body = {
-//     airports: [
-//       { name: "Tegel Airport(Berlin,DE)" },
-//       { name: "Schönefeld Airport(Berlin,DE)" },
-//       { name: "Chopin Airport(Warsaw,PL)" },
-//       { name: "Borispol Airoport(Kiev,UA)" },
-//       { name: "Juliani Airport(Kiev,UA)" },
-//       { name: "Minsk-1 Airport(Minsk, BLR)" },
-//       { name: "Vilnius Airport(Vilnius, LT)" },
-//       { name: "Riga Airport(Riga, LV)" },
-//       { name: "Tallinn Airport(Tallinn, EE)" },
-//       { name: "Sheremetyevo Airport(Moscow, RUS)" },
-//       { name: "Domodedovo Airport(Moscow, RUS)" },
-//       { name: "Schiphol Airport(Amsterdam, NLD)" }
-//     ]
-//   };
-// });
-
 router.get("/latest_news", async ctx => {
   ctx.status = 200;
   ctx.body = {
