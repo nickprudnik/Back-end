@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const Ticket = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   dateFrom: { type: Date, require: true },
   dateTo: { type: Date, require: true },
   startTime: { type: String, required: true },

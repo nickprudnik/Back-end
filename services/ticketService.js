@@ -1,14 +1,14 @@
 const { saveTicket, getTicket } = require("../repositories/ticketRepo");
 
-exports.saveTicket = async data => {
+exports.saveTickets = async data => {
   try {
-    await saveTicket(data);
+    return await saveTicket(data);
   } catch (err) {
     throw err;
   }
 };
 
-exports.getTicket = async data => {
+exports.getTickets = async data => {
   try {
     return await getTicket(data);
   } catch (err) {

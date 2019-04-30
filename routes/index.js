@@ -1,19 +1,21 @@
 const Router = require("koa-router");
 const userRouter = require("./user");
 const aviaRouter = require("./avia");
+const ticketRouter = require("./ticketRoutes");
 
 const router = new Router();
 
 router.use("/user", userRouter.routes());
 router.use("/avia", aviaRouter.routes());
+router.use("/ticket", ticketRouter.routes());
 router.get("/search-request", async ctx => {
   ctx.status = 200;
   ctx.body = {
     tickets: [
       {
         id: 1,
-        dateFrom: "2019-04-25",
-        dateTo: "2019-04-27",
+        dateFrom: "2019-05-01",
+        dateTo: "2019-05-03",
         startTime: "6.30",
         endTime: "8.45",
         fromCountry: "Minsk-1 Airport(Minsk, BLR)",

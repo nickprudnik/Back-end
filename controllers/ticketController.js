@@ -1,9 +1,9 @@
 const status = require("http-status");
-const { saveTicket, getTicket } = require("../services/airportService");
+const { saveTickets, getTickets } = require("../services/ticketService");
 
 exports.addTicket = async ctx => {
   try {
-    await saveTicket(ctx.request.body);
+    await saveTickets(ctx.request.body);
     ctx.status = status.CREATED;
     ctx.body = {
       message: "Airport save successful"
@@ -18,12 +18,10 @@ exports.addTicket = async ctx => {
 
 exports.getTicket = async ctx => {
   try {
-    const airport = await getTicket(ctx.request.query);
-    if (!!airport) {
+    const ticket = await getTickets(ctx.request.query);
+    if (!!ticket) {
       ctx.status = status.OK;
-      ctx.body = {
-        ...airport
-      };
+      ctx.body = ticket;
     }
   } catch (error) {
     ctx.body = {
