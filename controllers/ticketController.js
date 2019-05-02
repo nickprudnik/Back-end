@@ -6,11 +6,11 @@ exports.addTicket = async ctx => {
     await saveTickets(ctx.request.body);
     ctx.status = status.CREATED;
     ctx.body = {
-      message: "Airport save successful"
+      message: "Ticket save successful"
     };
   } catch (error) {
     ctx.body = {
-      message: "Airport save failed"
+      message: "Ticket save failed"
     };
     ctx.status = status.BAD_REQUEST;
   }
@@ -25,7 +25,7 @@ exports.getTicket = async ctx => {
     }
   } catch (error) {
     ctx.body = {
-      message: "Get airport failed"
+      message: "Get Ticket failed"
     };
     ctx.status = status.BAD_REQUEST;
   }
