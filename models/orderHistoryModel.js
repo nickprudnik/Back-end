@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const BestDeal = new mongoose.Schema({
+const Order = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, require: true },
   dateFrom: { type: Date, require: true },
   dateTo: { type: Date, require: true },
   startTime: { type: String, required: true },
@@ -8,8 +9,7 @@ const BestDeal = new mongoose.Schema({
   fromCountry: { type: String, required: true },
   toCountry: { type: String, required: true },
   price: { type: Number, required: true },
-  planeId: { type: Number, required: true },
   adult: { type: Number, required: true }
 });
 
-module.exports = mongoose.model("BestDeal", BestDeal);
+module.exports = mongoose.model("Order", Order);

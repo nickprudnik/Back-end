@@ -6,6 +6,7 @@ const bestdealsRouter = require("./bestdealsRouter");
 const newsRouter = require("./newsRouter");
 const planeRouter = require("./planeRouter");
 const luggageRouter = require("./luggageRouter");
+const orderRouter = require("./orderhistoryRouter");
 
 const router = new Router();
 
@@ -16,5 +17,6 @@ router.use("/search_bestdeals", bestdealsRouter.routes());
 router.use("/latest_news", newsRouter.routes());
 router.use("/planeShemes", planeRouter.routes());
 router.use("/luggage", luggageRouter.routes());
+router.use("/order_history", orderRouter.routes());
 
 module.exports = router;
